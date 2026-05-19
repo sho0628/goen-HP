@@ -35,7 +35,13 @@ html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--serif-jp);
   color: var(--ink);
-  background: var(--cream);
+  background-color: var(--cream);
+  background-image:
+    radial-gradient(circle at 16% 18%, rgba(221,175,170,.16), transparent 40%),
+    radial-gradient(circle at 86% 82%, rgba(194,160,107,.12), transparent 44%),
+    radial-gradient(rgba(174,111,107,.045) 1px, transparent 1.4px);
+  background-size: auto, auto, 24px 24px;
+  background-attachment: fixed, fixed, fixed;
   line-height: 1.95;
   font-size: 16px;
   letter-spacing: 0.04em;
@@ -479,4 +485,62 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .form__row.is-2 { grid-template-columns: 1fr; }
   .footer__top { grid-template-columns: 1fr; }
   .footer__bottom { justify-content: center; text-align: center; }
+}
+
+/* ===========================================================
+   Decorative botanical corners
+   =========================================================== */
+.page-hero, .footer, .section--blush, .section--cream2 { position: relative; }
+.page-hero, .footer, .section--blush, .section--cream2 { overflow: hidden; }
+
+.page-hero::before, .page-hero::after,
+.section--blush::before, .section--blush::after,
+.section--cream2::before,
+.footer::after {
+  content: ""; position: absolute; pointer-events: none; z-index: 0;
+  width: clamp(140px, 19vw, 250px); aspect-ratio: 1;
+  background-repeat: no-repeat; background-position: center; background-size: contain;
+  opacity: .42;
+}
+/* rose sprig */
+.page-hero::before, .page-hero::after,
+.section--blush::before, .section--blush::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cpath d='M22 22 C70 56 112 96 206 214' fill='none' stroke='%23D9A7A2' stroke-width='2' stroke-linecap='round'/%3E%3Cg fill='%23E0B7B2'%3E%3Cellipse cx='54' cy='42' rx='17' ry='8.5' transform='rotate(-30 54 42)'/%3E%3Cellipse cx='46' cy='66' rx='15' ry='7.5' transform='rotate(22 46 66)'/%3E%3Cellipse cx='86' cy='72' rx='17' ry='8.5' transform='rotate(-20 86 72)'/%3E%3Cellipse cx='78' cy='100' rx='15' ry='7.5' transform='rotate(28 78 100)'/%3E%3Cellipse cx='120' cy='110' rx='17' ry='8.5' transform='rotate(-16 120 110)'/%3E%3Cellipse cx='114' cy='140' rx='15' ry='7.5' transform='rotate(30 114 140)'/%3E%3Cellipse cx='152' cy='152' rx='16' ry='8' transform='rotate(-14 152 152)'/%3E%3Cellipse cx='148' cy='180' rx='14' ry='7' transform='rotate(30 148 180)'/%3E%3C/g%3E%3C/svg%3E");
+}
+/* gold sprig */
+.section--cream2::before, .footer::after {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 240'%3E%3Cpath d='M22 22 C70 56 112 96 206 214' fill='none' stroke='%23C2A06B' stroke-width='2' stroke-linecap='round'/%3E%3Cg fill='%23D2B583'%3E%3Cellipse cx='54' cy='42' rx='17' ry='8.5' transform='rotate(-30 54 42)'/%3E%3Cellipse cx='46' cy='66' rx='15' ry='7.5' transform='rotate(22 46 66)'/%3E%3Cellipse cx='86' cy='72' rx='17' ry='8.5' transform='rotate(-20 86 72)'/%3E%3Cellipse cx='78' cy='100' rx='15' ry='7.5' transform='rotate(28 78 100)'/%3E%3Cellipse cx='120' cy='110' rx='17' ry='8.5' transform='rotate(-16 120 110)'/%3E%3Cellipse cx='114' cy='140' rx='15' ry='7.5' transform='rotate(30 114 140)'/%3E%3Cellipse cx='152' cy='152' rx='16' ry='8' transform='rotate(-14 152 152)'/%3E%3Cellipse cx='148' cy='180' rx='14' ry='7' transform='rotate(30 148 180)'/%3E%3C/g%3E%3C/svg%3E");
+}
+.page-hero::before  { top: -34px; left: -34px; }
+.page-hero::after   { bottom: -34px; right: -34px; transform: rotate(180deg); }
+.section--blush::before { top: -30px; right: -30px; transform: scaleX(-1); }
+.section--blush::after  { bottom: -30px; left: -30px; transform: rotate(180deg) scaleX(-1); opacity: .3; }
+.section--cream2::before { bottom: -30px; left: -30px; transform: rotate(180deg) scaleX(-1); }
+.footer::after { top: -26px; right: -26px; transform: scaleX(-1); opacity: .36; }
+
+/* keep content above decorations */
+.section > .container,
+.page-hero > .container,
+.footer > .container { position: relative; z-index: 1; }
+
+/* ===========================================================
+   Japanese typography polish (clean wrapping & breaks)
+   =========================================================== */
+h1, h2, h3,
+.hero__title, .heading__title, .page-hero h1,
+.cta-band h2, .quote, .ibj h3 {
+  text-wrap: balance;
+  line-break: strict;
+}
+p, li, .hero__lead, .about-text p, .step__body p,
+.ibj p, .price-note, .heading__sub {
+  text-wrap: pretty;
+  line-break: strict;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+/* optional line breaks: shown on wide screens, collapsed when cramped */
+br.opt { display: inline; }
+@media (max-width: 600px) {
+  br.opt { display: none; }
 }
