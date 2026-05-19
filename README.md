@@ -47,9 +47,19 @@ python3 -m http.server 8000
 `your-form-id` を実際のIDに置き換えると、送信が有効になります。
 未設定の間は、入力検証のみ動作し、送信時に設定を促すメッセージを表示します。
 
-## デプロイ
+## デプロイ（GitHub Pages）
 
-GitHub Pages / Netlify / Vercel / レンタルサーバー等にそのまま配置できます。
+`.github/workflows/deploy-pages.yml` を同梱しています。
+リポジトリの **Settings → Pages → Build and deployment → Source** を
+**「GitHub Actions」** に設定すると、`main` または
+`claude/marriage-consultation-website-KFvW6` への push で自動公開されます。
+
+公開URL（例）: `https://sho0628.github.io/goen-HP/`
+
+> 初回のみ、リポジトリ管理者による上記 Settings の設定が必要です。
+> ワークフロー手動実行（Actions → Deploy to GitHub Pages → Run workflow）も可能です。
+
+Netlify / Vercel / レンタルサーバー等にもそのまま配置できます。
 Netlify を使う場合は、`contact.html` の form を Netlify Forms 用に
 `data-netlify="true"` 形式へ変更すると外部サービス不要で送信できます。
 
