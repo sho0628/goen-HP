@@ -541,6 +541,13 @@ p, li, .hero__lead, .about-text p, .step__body p,
   word-break: normal;
   overflow-wrap: normal;
 }
+/* short centered blocks: balance lines so no lonely last word */
+.intro-msg,
+.section.center > .container > p,
+.quote, .hero__lead {
+  text-wrap: balance;
+}
+
 /* optional line breaks: shown on wide screens, collapsed when cramped */
 br.opt { display: inline; }
 @media (max-width: 600px) {
