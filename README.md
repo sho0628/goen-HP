@@ -17,6 +17,18 @@
 
 ビルド不要。HTML/CSS/JS のみで動作します。
 
+## GitHub Codespaces で開発する（推奨）
+
+`.devcontainer/devcontainer.json` を同梱しています。
+
+1. GitHub のリポジトリ → **`Code` ▾ → `Codespaces` → `Create codespace`**
+2. 起動後、`index.html` を開き、エディタ右下の **「Go Live」** をクリック
+   （Live Server 拡張が自動で入り、保存すると自動リロードされます）
+3. 転送ポートの通知から **「ブラウザで開く」** でプレビュー
+
+Live Server を使わない場合は、ターミナルで `python3 -m http.server 8000`
+を実行し、ポート 8000 をブラウザで開いてください。
+
 ## ローカルで確認する
 
 ```bash

@@ -1,0 +1,34 @@
+{
+  "name": "goen-HP (static site)",
+  "image": "mcr.microsoft.com/devcontainers/base:ubuntu",
+
+  "forwardPorts": [5500, 8000],
+  "portsAttributes": {
+    "5500": {
+      "label": "Live Server (自動リロード)",
+      "onAutoForward": "openPreview"
+    },
+    "8000": {
+      "label": "Python 簡易サーバー",
+      "onAutoForward": "silent"
+    }
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ritwickdey.LiveServer",
+        "esbenp.prettier-vscode"
+      ],
+      "settings": {
+        "liveServer.settings.port": 5500,
+        "liveServer.settings.host": "0.0.0.0",
+        "liveServer.settings.NoBrowser": true,
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      }
+    }
+  },
+
+  "postCreateCommand": "echo 'Codespace ready. プレビュー: index.html を開き右下「Go Live」、または `python3 -m http.server 8000`'"
+}
