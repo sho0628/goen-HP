@@ -124,6 +124,15 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   padding: 16px 0; min-height: 72px;
 }
 .brand { display: flex; align-items: center; gap: 12px; }
+.brand__logo { height: 46px; width: auto; display: block; }
+.brand__lockup { display: none; }
+.brand__logo.is-missing { display: none; }
+.brand__logo.is-missing ~ .brand__lockup { display: flex; align-items: center; gap: 12px; }
+.footer__brand .brand__logo { height: 60px; margin-bottom: 6px; }
+.logo-stamp { text-align: center; }
+.logo-stamp img { height: clamp(90px, 13vw, 140px); width: auto; margin: 0 auto; display: block; }
+.logo-stamp .brand__lockup { justify-content: center; }
+.logo-stamp .brand__name { font-size: clamp(2.4rem, 6vw, 3.4rem); }
 .brand__mark { width: 38px; height: 38px; flex: none; }
 .brand__name {
   font-family: var(--serif-en);
@@ -391,6 +400,27 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .form-status.ok { display: block; background: #eef6ee; color: #3f7245; border: 1px solid #cfe3cf; }
 .form-status.ng { display: block; background: #fbeeed; color: #b5564f; border: 1px solid #f0d4d1; }
+
+/* ---------- CTA band with photo ---------- */
+.cta-band.has-photo { position: relative; overflow: hidden; }
+.cta-band .cta-band__bg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  object-fit: cover; z-index: 0;
+}
+.cta-band.has-photo::before {
+  content: ""; position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(180deg, rgba(251,244,240,.74), rgba(239,217,210,.80));
+}
+.cta-band .container { position: relative; z-index: 2; }
+
+/* ---------- Banner figure ---------- */
+.banner-figure {
+  max-width: 820px; margin: 0 auto clamp(40px, 6vw, 66px);
+  border-radius: 18px; overflow: hidden; box-shadow: var(--shadow);
+  border: 1px solid var(--line-soft); aspect-ratio: 16 / 7;
+  background: linear-gradient(150deg, #fff, var(--blush));
+}
+.banner-figure img { width: 100%; height: 100%; object-fit: cover; }
 
 /* ---------- Page hero (sub pages) ---------- */
 .page-hero {
