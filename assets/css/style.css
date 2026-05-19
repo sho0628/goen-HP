@@ -531,16 +531,66 @@ h1, h2, h3,
 .cta-band h2, .quote, .ibj h3 {
   text-wrap: balance;
   line-break: strict;
+  word-break: normal;
+  overflow-wrap: normal;
 }
 p, li, .hero__lead, .about-text p, .step__body p,
 .ibj p, .price-note, .heading__sub {
   text-wrap: pretty;
   line-break: strict;
   word-break: normal;
-  overflow-wrap: anywhere;
+  overflow-wrap: normal;
 }
 /* optional line breaks: shown on wide screens, collapsed when cramped */
 br.opt { display: inline; }
 @media (max-width: 600px) {
   br.opt { display: none; }
+}
+
+/* ===========================================================
+   Mobile (iPhone) typography refinements
+   =========================================================== */
+@media (max-width: 600px) {
+  body { letter-spacing: .015em; line-height: 1.9; }
+
+  /* wide English tracking looks broken when wrapped on narrow screens */
+  .eyebrow { letter-spacing: .22em; font-size: .82rem; line-height: 1.7; }
+  .hero__eyebrow, .heading .eyebrow, .page-hero .eyebrow,
+  .cta-band .eyebrow { white-space: normal; }
+
+  /* headings: tighter tracking, balanced multi-line */
+  .hero__title { letter-spacing: .04em; line-height: 1.5; }
+  .hero__title small { letter-spacing: .14em; line-height: 1.7; margin-top: 14px; }
+  .heading__title, .page-hero h1, .cta-band h2, .quote, .ibj h3 {
+    letter-spacing: .06em; line-height: 1.6;
+  }
+  .heading__sub { letter-spacing: .08em; }
+
+  /* long Japanese body copy: justify for clean both-edge alignment */
+  .hero__lead,
+  .section.center > .container > p,
+  .about-text p, .step__body p, .ibj p,
+  .price-note, .form__note {
+    text-align: justify;
+    text-justify: inter-character;
+  }
+
+  /* keep short / centered display text centered */
+  .quote, .heading__sub, .hero__keywords,
+  .cta-band p, .crumbs { text-align: center; }
+
+  /* step cards already center on mobile — keep body readable */
+  .step__body { text-align: left; }
+  .step__body h3, .step__body .step__label { text-align: center; }
+
+  /* breathing room so text isn't cramped to the edges */
+  .container { width: 90%; }
+  .step { padding: 30px 22px; }
+  .promise { padding: 38px 26px; }
+}
+
+@media (max-width: 380px) {
+  .hero__title { font-size: 1.8rem; }
+  .heading__title { font-size: 1.55rem; }
+  .eyebrow { letter-spacing: .16em; }
 }
