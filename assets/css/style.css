@@ -543,7 +543,8 @@ p, li, .hero__lead, .about-text p, .step__body p,
 }
 /* short centered blocks: balance lines so no lonely last word */
 .section.center > .container > p,
-.quote, .hero__lead {
+.quote, .hero__lead,
+.promise p, .step__body p, .aside-box p, .ibj p {
   text-wrap: balance;
 }
 /* intro message: honor the manual line breaks exactly */
