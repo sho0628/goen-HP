@@ -129,16 +129,38 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   display: flex; align-items: center; justify-content: space-between;
   padding: 16px 0; min-height: 72px;
 }
-.brand { display: flex; align-items: center; gap: 12px; }
+.brand { display: flex; align-items: center; gap: 4px 12px; flex-wrap: wrap; }
 .brand__logo { height: 46px; width: auto; display: block; }
+.brand__sub {
+  flex-basis: 100%;
+  font-family: var(--serif-en); font-style: italic;
+  font-size: .72rem; letter-spacing: .26em; color: var(--gold-dark);
+  margin-top: -4px; padding-left: 6px; line-height: 1;
+}
 .brand__lockup { display: none; }
 .brand__logo.is-missing { display: none; }
+.brand__logo.is-missing ~ .brand__sub { display: none; }
 .brand__logo.is-missing ~ .brand__lockup { display: flex; align-items: center; gap: 12px; }
-.footer__brand .brand__logo { height: 60px; margin-bottom: 6px; }
+.footer__brand .brand__logo { height: 60px; margin-bottom: 4px; }
+.footer__brand .brand__sub { font-size: .82rem; margin: 0 0 4px; padding-left: 2px; }
 .logo-stamp { text-align: center; }
 .logo-stamp img { height: clamp(90px, 13vw, 140px); width: auto; margin: 0 auto; display: block; }
+.logo-stamp__org {
+  display: block; font-family: var(--serif-jp);
+  font-size: clamp(.78rem, 1.8vw, .95rem); letter-spacing: .42em;
+  color: var(--gold-dark); margin-bottom: 14px; padding-left: .42em;
+}
+.logo-stamp__sub {
+  display: block; font-family: var(--serif-en); font-style: italic;
+  font-size: clamp(1.05rem, 2.6vw, 1.4rem); letter-spacing: .28em;
+  color: var(--rose-dark); margin-top: 10px;
+}
+.logo-stamp img.is-missing ~ .logo-stamp__sub,
+.logo-stamp img.is-missing ~ .logo-stamp__org { display: none; }
 .logo-stamp .brand__lockup { justify-content: center; }
 .logo-stamp .brand__name { font-size: clamp(2.4rem, 6vw, 3.4rem); }
+/* keep nav items on one line; logo + sublabel adds height */
+.nav__links a { white-space: nowrap; }
 .brand__mark { width: 38px; height: 38px; flex: none; }
 .brand__name {
   font-family: var(--serif-en);
@@ -469,7 +491,7 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   .promise-grid { grid-template-columns: 1fr; max-width: 460px; margin-inline: auto; }
   .footer__top { grid-template-columns: 1fr 1fr; }
 }
-@media (max-width: 760px) {
+@media (max-width: 900px) {
   .nav__toggle { display: flex; }
   .nav__links {
     position: fixed; inset: 72px 0 auto 0; flex-direction: column; gap: 0;
