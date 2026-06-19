@@ -457,7 +457,6 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .form__consent input { width: auto; margin-top: 6px; }
 .form__submit { width: 100%; justify-content: center; }
 .form__note { font-size: .82rem; color: var(--ink-soft); text-align: center; margin-top: 16px; }
-.form__note--privacy { font-size: .76rem; text-align: left; line-height: 1.7; margin-top: 10px; padding-top: 14px; border-top: 1px solid #eee3d6; }
 .form-status {
   display: none; border-radius: 10px; padding: 16px 20px; margin-bottom: 22px;
   font-size: .92rem; letter-spacing: .04em;
