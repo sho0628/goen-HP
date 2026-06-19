@@ -120,9 +120,20 @@
     })
       .then(function (res) {
         if (res.ok) {
-          status.className = "form-status ok";
-          status.textContent = "お問い合わせを受け付けました。担当者より追ってご連絡いたします。";
+          status.className = "form-status ok form-status--rich";
+          status.innerHTML =
+            '<span class="form-status__icon" aria-hidden="true">' +
+              '<svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 12.5l3 3 6-6.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>' +
+            '</span>' +
+            '<div class="form-status__body">' +
+              '<p class="form-status__title">お問い合わせを受け付けました</p>' +
+              '<p>この度はお問い合わせいただき、誠にありがとうございます。<br>内容を確認のうえ、<b>2〜3営業日以内</b>に担当者よりご連絡いたします。</p>' +
+              '<p class="form-status__sub">お急ぎの場合は、お電話（<a href="tel:07076035050">070-7603-5050</a>）でも承っております。<br>ご連絡まで今しばらくお待ちください。</p>' +
+            '</div>';
           form.reset();
+          if (typeof status.scrollIntoView === "function") {
+            status.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
         } else {
           throw new Error("送信に失敗しました");
         }
