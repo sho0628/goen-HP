@@ -661,6 +661,9 @@ br.opt { display: inline; }
     text-justify: inter-character;
   }
 
+  /* intro message: hard breaks collapse on mobile, so wrap naturally */
+  .intro-msg { text-wrap: pretty; line-height: 1.95; text-align: center; }
+
   /* keep short / centered display text centered */
   .quote, .heading__sub, .hero__keywords,
   .cta-band p, .crumbs { text-align: center; }
