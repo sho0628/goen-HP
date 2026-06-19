@@ -664,6 +664,17 @@ br.opt { display: inline; }
   /* intro message: hard breaks collapse on mobile, so wrap naturally */
   .intro-msg { text-wrap: pretty; line-height: 1.95; text-align: center; }
 
+  /* paragraphs that opt out of wrapping on desktop: re-enable natural
+     wrapping on mobile and collapse their hard breaks so iPhone widths
+     don't show awkward mid-sentence line breaks */
+  p[style*="text-wrap:initial"] {
+    text-wrap: pretty !important;
+    line-break: strict;
+    word-break: normal;
+    overflow-wrap: normal;
+  }
+  p[style*="text-wrap:initial"] br { display: none; }
+
   /* keep short / centered display text centered */
   .quote, .heading__sub, .hero__keywords,
   .cta-band p, .crumbs { text-align: center; }
