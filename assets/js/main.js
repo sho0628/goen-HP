@@ -127,8 +127,8 @@
             '</span>' +
             '<div class="form-status__body">' +
               '<p class="form-status__title">お問い合わせを受け付けました</p>' +
-              '<p>この度はお問い合わせいただき、誠にありがとうございます。<br>内容を確認のうえ、<b>2〜3営業日以内</b>に担当者よりご連絡いたします。</p>' +
-              '<p class="form-status__sub">お急ぎの場合は、お電話（<a href="tel:07076035050">070-7603-5050</a>）でも承っております。<br>ご連絡まで今しばらくお待ちください。</p>' +
+              '<p>この度はお問い合わせいただき、誠にありがとうございます。内容を確認のうえ、<b>2〜3営業日以内</b>に担当者よりご連絡いたします。</p>' +
+              '<p class="form-status__sub">お急ぎの場合は、<span class="form-status__nowrap">お電話（<a href="tel:07076035050">070-7603-5050</a>）</span>でも承っております。ご連絡まで今しばらくお待ちください。</p>' +
             '</div>';
           form.reset();
           if (typeof status.scrollIntoView === "function") {
