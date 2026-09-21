@@ -1,0 +1,68 @@
+name: Deploy to Xserver
+
+# main または作業ブランチへの push で、Xサーバーの公開ディレクトリへ FTPS で同期する。
+# 変更のあったファイルだけをアップロードし、リポジトリから消したファイルはサーバーからも消す。
+#
+# 必要な Secrets（GitHub → Settings → Secrets and variables → Actions）
+#   XSERVER_FTP_USER      … Xサーバーで作成した FTP ユーザーID（例: deploy@goen-partner.com）
+#   XSERVER_FTP_PASSWORD  … その FTP パスワード
+#   XSERVER_FTP_DIR       … 任意。FTP ログイン後のルートが公開ディレクトリでない場合だけ、
+#                            公開ディレクトリのパスを末尾スラッシュ付きで指定
+#                            （例: サーバー本体アカウントなら /goen-partner.com/public_html/）
+#
+# Secrets が未登録のときは失敗にせず、デプロイをスキップして警告を出す。
+
+on:
+  push:
+    branches:
+      - main
+      - claude/marriage-consultation-website-KFvW6
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# 同時に 2 つ走らせない（FTP の同期状態が壊れるため）。後発は待つ。
+concurrency:
+  group: xserver-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Check FTP secrets
+        id: secrets
+        env:
+          FTP_USER: ${{ secrets.XSERVER_FTP_USER }}
+          FTP_PASSWORD: ${{ secrets.XSERVER_FTP_PASSWORD }}
+        run: |
+          if [ -z "$FTP_USER" ] || [ -z "$FTP_PASSWORD" ]; then
+            echo "::warning::XSERVER_FTP_USER / XSERVER_FTP_PASSWORD が未登録のためデプロイをスキップしました。README の「デプロイ（Xサーバー）」の手順で Secrets を登録してください。"
+            echo "configured=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "configured=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Upload to Xserver (FTPS)
+        if: steps.secrets.outputs.configured == 'true'
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: sv17078.xserver.jp
+          username: ${{ secrets.XSERVER_FTP_USER }}
+          password: ${{ secrets.XSERVER_FTP_PASSWORD }}
+          protocol: ftps
+          port: 21
+          local-dir: ./
+          server-dir: ${{ secrets.XSERVER_FTP_DIR || './' }}
+          # サイトの表示に不要なものはアップロードしない
+          exclude: |
+            **/.git*
+            **/.git*/**
+            .github/**
+            .devcontainer/**
+            **/README.md
+            CNAME

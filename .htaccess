@@ -1,0 +1,10 @@
+# ------------------------------------------------------------
+# goen-partner.com（Xサーバー）用 Apache 設定
+# ------------------------------------------------------------
+
+# GitHub Actions のデプロイ状態ファイル（サーバー上のファイル一覧）は外部に見せない
+<Files ".ftp-deploy-sync-state.json">
+  Require all denied
+</Files>
+
+AddDefaultCharset UTF-8

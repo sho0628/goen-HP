@@ -455,6 +455,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .form .error-msg { color: #b5564f; font-size: .82rem; min-height: 1.1em; letter-spacing: .04em; }
 .form__consent { display: flex; gap: 12px; align-items: flex-start; font-size: .88rem; color: var(--ink-soft); margin-bottom: 26px; }
 .form__consent input { width: auto; margin-top: 6px; }
+/* honeypot: 人間には見えない・触れない欄（bot 判定用、contact.php 参照） */
+.form__hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .form__submit { width: 100%; justify-content: center; }
 .form__note { font-size: .82rem; color: var(--ink-soft); text-align: center; margin-top: 16px; }
 .form-status {
