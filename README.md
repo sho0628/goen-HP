@@ -137,7 +137,7 @@ php -S localhost:8000     # PHP 同梱の簡易サーバー（contact.php も動
 - `about-2.jpg` … Goen.について「安心」（手をつなぐ）
 - `rings.jpg` … 料金プラン上部バナー（結婚指輪）
 - `forever.jpg` … トップ／各ページ下部の帯（バージンロード）
-- `qr-line.png` / `qr-instagram.jpg` … お問い合わせページの QR コード（スマホ幅では非表示にしてボタンを表示）
+- `qr-line.png` / `qr-instagram.png` … お問い合わせページの QR コード（スマホ幅では非表示にしてボタンを表示）
 - `og-image.jpg` … LINE・SNS で URL を共有したときに表示される画像（1200×630）
 - `icon-192.png` … ファビコンの大きいサイズ（`favicon.ico` と同じ「G」のアイコン）
 

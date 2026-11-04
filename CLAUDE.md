@@ -18,7 +18,7 @@
 - `contact.php` を変えたら `php -S` と偽の sendmail で、送信・自動返信・スパム判定をローカルで確認する。
 - DNS の NS / MX / TXT は触らない（メールが止まる）。
 - ページを追加・改名したら、`sitemap.xml` と各ページの `canonical` / `og:url` / `og:title` / `og:description` もそろえる。
-- LINE: https://lin.ee/8XeSknH ／ Instagram: https://www.instagram.com/goen.pertner/ （電話は `tel:07076035050`）
+- LINE: https://lin.ee/8XeSknH ／ Instagram: https://www.instagram.com/goen.partner/ （電話は `tel:07076035050`）
 
 ## 文章・見た目
 
