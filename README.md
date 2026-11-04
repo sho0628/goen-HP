@@ -72,7 +72,8 @@ Secrets が未登録のときは、デプロイをスキップして警告だけ
 
 ## 移行メモ（GitHub Pages → Xサーバー。完了後にこの節は削除）
 
-- [ ] FTP アカウント作成・Secrets 登録・初回デプロイ成功
+- [x] FTP アカウント（`deploy@goen-partner.com`）作成・Secrets 登録
+- [ ] 初回デプロイ成功（Actions → Deploy to Xserver）
 - [ ] サーバーパネル「動作確認URL設定」で Xサーバー上の表示を確認
 - [ ] A レコードを GitHub Pages の 4 つから `85.131.221.39` の 1 つへ切替
 - [ ] SSL設定で `goen-partner.com` の無料独自SSLを（再）発行
