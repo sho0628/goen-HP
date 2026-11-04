@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: /contact.php
+
+Sitemap: https://goen-partner.com/sitemap.xml

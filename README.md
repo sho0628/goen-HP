@@ -32,6 +32,8 @@
 | `contact.html` | お問い合わせ（フォーム付き） |
 | `contact.php` | お問い合わせフォームの送信処理（通知メール・自動返信・スパム対策） |
 | `.htaccess` | Xサーバー用 Apache 設定 |
+| `robots.txt` / `sitemap.xml` | 検索エンジン向け（巡回の許可とページ一覧） |
+| `favicon.ico` / `apple-touch-icon.png` | ブラウザのタブ・検索結果・ホーム画面のアイコン |
 | `assets/css/style.css` | スタイル一式 |
 | `assets/js/main.js` | ナビ開閉・スクロール演出・フォーム検証/送信 |
 | `assets/images/` | 写真の配置場所（下記参照） |
@@ -135,7 +137,9 @@ php -S localhost:8000     # PHP 同梱の簡易サーバー（contact.php も動
 - `about-2.jpg` … Goen.について「安心」（手をつなぐ）
 - `rings.jpg` … 料金プラン上部バナー（結婚指輪）
 - `forever.jpg` … トップ／各ページ下部の帯（バージンロード）
-- `qr-line.png` / `qr-instagram.jpg` … お問い合わせページの QR コード
+- `qr-line.png` / `qr-instagram.jpg` … お問い合わせページの QR コード（スマホ幅では非表示にしてボタンを表示）
+- `og-image.jpg` … LINE・SNS で URL を共有したときに表示される画像（1200×630）
+- `icon-192.png` … ファビコンの大きいサイズ（`favicon.ico` と同じ「G」のアイコン）
 
 CSS / JS を変更したときは、各 HTML の `style.css?v=…` / `main.js?v=…` の値を更新すると
 ブラウザのキャッシュに残った古い版が使われなくなります。

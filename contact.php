@@ -92,6 +92,7 @@ $email   = clean(post('email'),   254, false);
 $tel     = clean(post('tel'),      30, false);
 $age     = clean(post('age'),      10, false);
 $consult = clean(post('method'),   30, false);
+$schedule = clean(post('schedule'), 100, false);
 $message = clean(post('message'), 4000, true);
 $consent = isset($_POST['consent']);
 
@@ -106,6 +107,9 @@ if ($name === '') {
 }
 if ($kana !== '' && has_url($kana)) {
     $errors['kana'] = 'フリガナにURLは使用できません。';
+}
+if ($schedule !== '' && has_url($schedule)) {
+    $errors['schedule'] = 'ご希望の日時にURLは使用できません。';
 }
 if ($email === '') {
     $errors['email'] = 'メールアドレスをご入力ください。';
@@ -145,6 +149,7 @@ $body = implode("\n", [
     '■ 電話番号：' . blank($tel),
     '■ ご年齢：' . blank($age),
     '■ ご希望の相談方法：' . $consult,
+    '■ ご希望の相談日時：' . blank($schedule),
     '',
     '■ ご相談内容：',
     $message,

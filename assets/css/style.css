@@ -121,6 +121,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
   border: 1px solid var(--gold); color: var(--gold-dark); background: transparent;
 }
 .btn--ghost:hover { background: var(--gold); color: var(--white); transform: translateY(-3px); }
+.btn--line { background: #06C755; color: var(--white); box-shadow: 0 14px 30px -16px rgba(6, 199, 85, .7); }
+.btn--line:hover { background: #05B34C; transform: translateY(-3px); }
+.btn--insta { border: 1px solid var(--rose); color: var(--rose-dark); background: var(--white); }
+.btn--insta:hover { background: var(--blush); transform: translateY(-3px); }
 
 /* ---------- Header / Nav ---------- */
 .header {
@@ -383,6 +387,8 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 .cta-band h2 { font-size: clamp(1.6rem, 4.4vw, 2.5rem); color: var(--rose-dark); letter-spacing: .12em; margin-bottom: 16px; }
 .cta-band p { color: var(--ink-soft); margin-bottom: 34px; }
+.cta-actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; }
+.cta-actions .btn { min-width: 270px; justify-content: center; }
 
 /* ---------- Contact ---------- */
 .contact-grid { display: grid; grid-template-columns: .9fr 1.1fr; gap: 50px; align-items: start; }
@@ -426,6 +432,14 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 }
 @media (max-width: 380px) {
   .qr-row { max-width: 220px; }
+}
+.sns-buttons { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }
+.sns-buttons .btn { flex: 1 1 180px; justify-content: center; padding: 13px 18px; font-size: .9rem; letter-spacing: .08em; }
+/* スマホでは自分の画面の QR コードは読み取れないので、ボタンだけを見せる */
+@media (max-width: 600px) {
+  .qr-row, .qr-note { display: none; }
+  /* URL・メールアドレスが途中（ハイフンの位置など）で改行されないよう、少し小さくして1行に収める */
+  .contact-line span b { font-size: 1rem; white-space: nowrap; }
 }
 
 /* Readable phone / contact-number style — 明朝体 */
