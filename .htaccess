@@ -2,6 +2,14 @@
 # goen-partner.com（Xサーバー）用 Apache 設定
 # ------------------------------------------------------------
 
+# http:// と www 付きのアクセスを https://goen-partner.com/ へ1回で転送する。
+# 自ドメインだけが対象なので、動作確認URL（*.check-xserver.jp）は転送しない。
+RewriteEngine On
+RewriteCond %{HTTP_HOST} ^www\.goen-partner\.com$ [NC,OR]
+RewriteCond %{HTTPS} !on
+RewriteCond %{HTTP_HOST} ^(www\.)?goen-partner\.com$ [NC]
+RewriteRule ^(.*)$ https://goen-partner.com/$1 [R=301,L]
+
 # GitHub Actions のデプロイ状態ファイル（サーバー上のファイル一覧）は外部に見せない
 <Files ".ftp-deploy-sync-state.json">
   Require all denied

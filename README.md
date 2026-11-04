@@ -21,7 +21,6 @@
 | `assets/js/main.js` | ナビ開閉・スクロール演出・フォーム検証/送信 |
 | `assets/images/` | 写真の配置場所（下記参照） |
 | `.github/workflows/deploy-xserver.yml` | Xサーバーへの自動デプロイ |
-| `.github/workflows/deploy-pages.yml` | 旧 GitHub Pages デプロイ（移行完了後に削除） |
 
 ## デプロイ（Xサーバー）
 
@@ -47,7 +46,7 @@ GitHub Actions が FTPS でXサーバーの公開ディレクトリへファイ�
 > Secret `XSERVER_FTP_DIR` に `/goen-partner.com/public_html/`（末尾スラッシュ必須）を追加してください。
 
 Secrets が未登録のときは、デプロイをスキップして警告だけ出します（失敗にはなりません）。
-アップロード対象から `.git*` / `.github` / `.devcontainer` / `README.md` / `CNAME` は除外されます。
+アップロード対象から `.git*` / `.github` / `.devcontainer` / `README.md` は除外されます。
 
 ## お問い合わせフォーム（contact.php）
 
@@ -66,6 +65,7 @@ Secrets が未登録のときは、デプロイをスキップして警告だけ
 | 種別 | ホスト | 内容 |
 |---|---|---|
 | A | `goen-partner.com` | `85.131.221.39`（サーバー `sv17078.xserver.jp` の IP） |
+| A | `www.goen-partner.com` | `85.131.221.39`（`.htaccess` で `https://goen-partner.com` へ転送） |
 | MX | `goen-partner.com` | `sv17078.xserver.jp`（優先度 0） |
 
 メールは Xサーバーのメールアカウント `info@goen-partner.com` で送受信します。
@@ -73,12 +73,15 @@ Secrets が未登録のときは、デプロイをスキップして警告だけ
 ## 移行メモ（GitHub Pages → Xサーバー。完了後にこの節は削除）
 
 - [x] FTP アカウント（`deploy@goen-partner.com`）作成・Secrets 登録
-- [ ] 初回デプロイ成功（Actions → Deploy to Xserver）
-- [ ] サーバーパネル「動作確認URL設定」で Xサーバー上の表示を確認
-- [ ] A レコードを GitHub Pages の 4 つから `85.131.221.39` の 1 つへ切替
-- [ ] SSL設定で `goen-partner.com` の無料独自SSLを（再）発行
-- [ ] `contact.html` の送信先を `contact.php` に切替、`.htaccess` に HTTPS リダイレクト追加
-- [ ] `deploy-pages.yml` と `CNAME` を削除、Formspree を解約
+- [x] 初回デプロイ成功（Actions → Deploy to Xserver）
+- [x] SSL設定で失効していた無料独自SSLを「更新」
+- [x] A レコードを GitHub Pages の 4 つから `85.131.221.39` へ切替（`www` も追加）
+- [x] `contact.html` の送信先を `contact.php` に切替、`.htaccess` に HTTPS / www 転送を追加
+- [x] `deploy-pages.yml` と `CNAME` を削除
+- [ ] ブラウザで `https://goen-partner.com` の証明書が有効か確認（警告が出たら SSL設定で「更新」）
+- [ ] 本番フォームからテスト送信し、通知メールと自動返信の受信を確認
+- [ ] GitHub の Settings → Pages で公開を停止（Unpublish site）
+- [ ] Formspree のフォーム（`mnjyeqvb`）を削除
 
 ## 開発・確認
 
