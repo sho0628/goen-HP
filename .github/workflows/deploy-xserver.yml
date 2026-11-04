@@ -1,6 +1,8 @@
 name: Deploy to Xserver
 
-# main または作業ブランチへの push で、Xサーバーの公開ディレクトリへ FTPS で同期する。
+# main への push で、Xサーバーの公開ディレクトリへ FTPS で同期する。
+# 作業ブランチへの push では公開しない（公開の元を main 1 本にして、
+# 別々のブランチの内容でサーバー上のファイルを上書きし合わないようにするため）。
 # 変更のあったファイルだけをアップロードし、リポジトリから消したファイルはサーバーからも消す。
 #
 # 必要な Secrets（GitHub → Settings → Secrets and variables → Actions）
@@ -16,7 +18,6 @@ on:
   push:
     branches:
       - main
-      - claude/marriage-consultation-website-KFvW6
   workflow_dispatch:
 
 permissions:
@@ -65,4 +66,4 @@ jobs:
             .github/**
             .devcontainer/**
             **/README.md
-            CNAME
+            CLAUDE.md

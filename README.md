@@ -4,7 +4,22 @@
 <https://goen-partner.com>
 
 ビルド不要の静的サイト（HTML/CSS/JS）＋ お問い合わせ用の PHP 1 本で構成。
-本番は **Xサーバー** で公開し、このリポジトリへの push で自動デプロイされます。
+本番は **Xサーバー** で公開し、`main` ブランチに変更が入ると自動で反映されます。
+
+## サイトの更新のしかた
+
+1. **Claude に頼む**：修正内容をチャットで伝える。修正が `main` に反映されると、約1分で公開されます。
+   作業ブランチに push しただけでは公開されません（新しいセッションでも同じ）。
+2. **GitHub 上で直接直す**（文字の修正程度）：`main` のファイルを開き、鉛筆マークで文字だけを書き換えて
+   「Commit changes」。約1分で公開されます。`<` `>` で囲まれた部分は触らないこと。
+3. **反映の確認**：Actions タブの「Deploy to Xserver」が緑のチェックなら完了です。
+
+やってはいけないこと：
+
+- Xサーバーのファイルマネージャ・FTP でファイルを直接編集する（次の公開で上書きされます）
+- FTP アカウント `deploy@goen-partner.com` のパスワード変更・削除（自動公開が止まります。
+  変えた場合は Secret `XSERVER_FTP_PASSWORD` も更新）
+- DNS の NS / MX / TXT レコードの変更（メールが止まります）
 
 ## 構成
 
@@ -24,15 +39,15 @@
 
 ## デプロイ（Xサーバー）
 
-`main` または `claude/marriage-consultation-website-KFvW6` への push で、
-GitHub Actions が FTPS でXサーバーの公開ディレクトリへファイルを同期します（変更分のみ）。
+`main` への push で、GitHub Actions が FTPS でXサーバーの公開ディレクトリへファイルを同期します（変更分のみ）。
+作業ブランチへの push では公開されません（公開の元は `main` だけ）。
 
 ### 初回設定（1回だけ）
 
 1. Xサーバー **サーバーパネル → FTPアカウント設定 → `goen-partner.com` → FTPアカウント追加**
    - FTPユーザーID：任意（例 `deploy` → `deploy@goen-partner.com` になります）
    - パスワード：任意（長くて推測されにくいもの）
-   - 接続先ディレクトリ：`/goen-partner.com/public_html`（初期値のまま）
+   - 接続先ディレクトリ：`/home/goen5050/goen-partner.com/public_html`
 2. GitHub リポジトリ **Settings → Secrets and variables → Actions → New repository secret** で登録
 
    | Name | Value |
@@ -40,13 +55,13 @@ GitHub Actions が FTPS でXサーバーの公開ディレクトリへファイ�
    | `XSERVER_FTP_USER` | 1 で作った FTP ユーザーID（例 `deploy@goen-partner.com`） |
    | `XSERVER_FTP_PASSWORD` | 1 で決めたパスワード |
 
-3. **Actions → Deploy to Xserver → Run workflow** で手動実行（以後は push のたびに自動）
+3. **Actions → Deploy to Xserver → Run workflow** で手動実行（以後は `main` への push のたびに自動）
 
 > サーバー本体のアカウント（`goen5050`）でログインする場合は FTP のルートが `/home/goen5050/` になるため、
 > Secret `XSERVER_FTP_DIR` に `/goen-partner.com/public_html/`（末尾スラッシュ必須）を追加してください。
 
 Secrets が未登録のときは、デプロイをスキップして警告だけ出します（失敗にはなりません）。
-アップロード対象から `.git*` / `.github` / `.devcontainer` / `README.md` は除外されます。
+アップロード対象から `.git*` / `.github` / `.devcontainer` / `README.md` / `CLAUDE.md` は除外されます。
 
 ## お問い合わせフォーム（contact.php）
 
@@ -64,7 +79,7 @@ Secrets が未登録のときは、デプロイをスキップして警告だけ
 - 自動返信には送信者が書いた本文を含めません（第三者宛のスパム中継に使われないため）
 - 動作確認：`https://goen-partner.com/contact.php?ping=1` を開くと `{"ok":true,...}` が返ります（メールは送りません）
 - 送れないとき：サーバーパネル → **エラーログ** に `[goen-contact]` で記録されます
-- JS 無効のブラウザでも送信でき、結果は `contact.html?sent=1` / `?error=…` で表示されます
+- JavaScript 無効のブラウザからは送信できません（フォームの上に、お電話・メールの案内を表示）
 
 ## DNS / メール（Xサーバー「DNSレコード設定」）
 
@@ -84,10 +99,12 @@ Secrets が未登録のときは、デプロイをスキップして警告だけ
 - [x] A レコードを GitHub Pages の 4 つから `85.131.221.39` へ切替（`www` も追加）
 - [x] `contact.html` の送信先を `contact.php` に切替、`.htaccess` に HTTPS / www 転送を追加
 - [x] `deploy-pages.yml` と `CNAME` を削除
-- [ ] ブラウザで `https://goen-partner.com` の証明書が有効か確認（警告が出たら SSL設定で「更新」）
+- [x] ブラウザで `https://goen-partner.com` の証明書が有効なことを確認
+- [x] `main` に統合し、公開の元を `main` に一本化
 - [ ] 本番フォームからテスト送信し、通知メールと自動返信の受信を確認
 - [ ] GitHub の Settings → Pages で公開を停止（Unpublish site）
 - [ ] Formspree のフォーム（`mnjyeqvb`）を削除
+- [ ] Xサーバーの動作確認URL（`goen-partner-com.check-xserver.jp`）を OFF
 
 ## 開発・確認
 
