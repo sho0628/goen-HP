@@ -60,6 +60,10 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .center { text-align: center; }
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity .9s ease, transform .9s ease; }
 .reveal.is-visible { opacity: 1; transform: none; }
+/* is-visible は main.js が付けるので、JavaScript が無効なら最初から表示する */
+@media (scripting: none) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 
 /* English eyebrow label */
 .eyebrow {
@@ -459,6 +463,11 @@ button { font-family: inherit; cursor: pointer; border: none; background: none; 
 .form__hp { position: absolute; left: -10000px; top: auto; width: 1px; height: 1px; overflow: hidden; }
 .form__submit { width: 100%; justify-content: center; }
 .form__note { font-size: .82rem; color: var(--ink-soft); text-align: center; margin-top: 16px; }
+.form__notice {
+  margin: 0 0 24px; padding: 12px 16px; border-radius: 10px;
+  background: var(--blush); color: var(--rose-dark);
+  font-size: .88rem; letter-spacing: .04em; text-align: center;
+}
 .form-status {
   display: none; border-radius: 10px; padding: 16px 20px; margin-bottom: 22px;
   font-size: .92rem; letter-spacing: .04em;

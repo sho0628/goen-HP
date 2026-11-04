@@ -131,7 +131,9 @@
     } else if (query.has("error")) {
       var key = query.get("error");
       showError(key === "limit" ? LIMIT_ERROR :
-                key === "invalid" ? "入力内容をご確認のうえ、もう一度送信してください。" : GENERIC_ERROR, true);
+                key === "invalid" ? "入力内容をご確認のうえ、もう一度送信してください。" :
+                key === "js" ? "送信できませんでした。ページを再読み込みしてもう一度お試しいただくか、お電話・メールにてご連絡ください。" :
+                GENERIC_ERROR, true);
     }
     if ((query.has("sent") || query.has("error")) && window.history && history.replaceState) {
       history.replaceState(null, "", window.location.pathname + window.location.hash);

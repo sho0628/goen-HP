@@ -3,8 +3,9 @@
  * お問い合わせフォーム送信処理（Xサーバー用）
  *
  * contact.html のフォームから POST を受け取り、次の順に処理します。
- *   1. スパム対策 … ハニーポット／表示から送信までの所要時間／IP ごとの回数制限
- *   2. 入力検証   … 必須・形式・文字数
+ *   1. スパム対策 … IP ごとの回数制限／ハニーポット／表示から送信までの所要時間
+ *                  （所要時間は main.js が入れるので、JavaScript なしの送信は受け付けない）
+ *   2. 入力検証   … 必須・形式・文字数／名前・本文の URL 禁止／本文は日本語必須
  *   3. 通知メール … RECIPIENT へ（Reply-To は送信者のアドレス）
  *   4. 自動返信   … 送信者へ受付確認（AUTO_REPLY が true のとき）
  *
@@ -63,18 +64,30 @@ if (rate_limited($ip)) {
     ], 'limit');
 }
 
+// 人間には見えない欄（fax）への入力や、ありえない所要時間は bot。
+// 成功したように見せて、メールは送らない（bot に対策を学習させないため）
 $honeypot = clean(post('fax'), 50, false);
 $elapsed  = post('elapsed');
-$tooFast  = $elapsed !== '' && ctype_digit($elapsed) && (int) $elapsed < MIN_SECONDS * 1000;
-if ($honeypot !== '' || $tooFast) {
-    // bot には成功したように見せて、メールは送らない
-    error_log("[goen-contact] spam suppressed ip={$ip} honeypot=" . ($honeypot !== '' ? 'y' : 'n') . " elapsed={$elapsed}");
+$badTime  = $elapsed !== '' && (!ctype_digit($elapsed) || (int) $elapsed < MIN_SECONDS * 1000);
+if ($honeypot !== '' || $badTime) {
+    error_log("[goen-contact] spam suppressed ip={$ip} honeypot=" . ($honeypot !== '' ? 'y' : 'n') . ' elapsed=' . mb_substr($elapsed, 0, 20));
     respond(200, ['ok' => true, 'message' => 'お問い合わせを受け付けました。'], 'sent');
 }
 
+// elapsed は main.js が送信時に必ず入れる値。空なら JavaScript が動いていない。
+// ページを開かずに直接送りつけてくる bot の大半はここで止まる。
+// まれに JavaScript を切っている人もいるので、黙って捨てずに理由を返す。
+if ($elapsed === '') {
+    error_log("[goen-contact] rejected: no elapsed (JavaScript off or bot) ip={$ip}");
+    respond(422, [
+        'ok'      => false,
+        'message' => 'JavaScriptが無効のため送信できませんでした。JavaScriptを有効にして再度お試しいただくか、お電話・メールにてご連絡ください。',
+    ], 'js');
+}
+
 // 2. 入力検証 ----------------------------------------------------------
-$name    = clean(post('name'),    100, false);
-$kana    = clean(post('kana'),    100, false);
+$name    = clean(post('name'),     50, false);
+$kana    = clean(post('kana'),     50, false);
 $email   = clean(post('email'),   254, false);
 $tel     = clean(post('tel'),      30, false);
 $age     = clean(post('age'),      10, false);
@@ -82,9 +95,17 @@ $consult = clean(post('method'),   30, false);
 $message = clean(post('message'), 4000, true);
 $consent = isset($_POST['consent']);
 
+// 名前欄の URL は自動返信の宛名（○○ 様）に載ってしまい、第三者宛ての宣伝に悪用されるため禁止。
+// 本文の URL・日本語を含まない本文は、海外からの宣伝スパムと営業メールの典型なので受け付けない。
+// どれも人が書き直せば送れるよう、理由を表示する（黙って捨てない）。
 $errors = [];
 if ($name === '') {
     $errors['name'] = 'お名前をご入力ください。';
+} elseif (has_url($name)) {
+    $errors['name'] = 'お名前にURLは使用できません。';
+}
+if ($kana !== '' && has_url($kana)) {
+    $errors['kana'] = 'フリガナにURLは使用できません。';
 }
 if ($email === '') {
     $errors['email'] = 'メールアドレスをご入力ください。';
@@ -96,6 +117,10 @@ if ($tel !== '' && !preg_match('/^[0-9+\-() ]{8,20}$/', $tel)) {
 }
 if ($message === '') {
     $errors['message'] = 'ご相談内容をご入力ください。';
+} elseif (has_url($message)) {
+    $errors['message'] = 'ご相談内容にURL（http〜、www.〜）は記載できません。';
+} elseif (!has_japanese($message)) {
+    $errors['message'] = 'ご相談内容は日本語でご記入ください。';
 }
 if (!$consent) {
     $errors['consent'] = '個人情報の取り扱いへのご同意をお願いいたします。';
@@ -104,6 +129,8 @@ if (!in_array($consult, ['どちらでも', 'カフェなどで対面', 'オン�
     $consult = 'どちらでも';
 }
 if ($errors !== []) {
+    // 入力内容は記録しない（どの欄で弾いたかだけ。正しい問い合わせを弾いていないかの確認用）
+    error_log("[goen-contact] invalid input ip={$ip} fields=" . implode(',', array_keys($errors)));
     respond(422, ['ok' => false, 'message' => '入力内容をご確認ください。', 'errors' => $errors], 'invalid');
 }
 
@@ -185,6 +212,18 @@ function clean(string $s, int $max, bool $multiline): string
     }
     $s = trim($s);
     return mb_strlen($s) > $max ? mb_substr($s, 0, $max) : $s;
+}
+
+/** URL らしき文字列（http://〜、https://〜、www.〜）を含むか。全角で書いたものも検出する */
+function has_url(string $s): bool
+{
+    return preg_match('~https?://|www\.~i', mb_convert_kana($s, 'a')) === 1;
+}
+
+/** ひらがな・カタカナ・漢字を含むか */
+function has_japanese(string $s): bool
+{
+    return preg_match('/[\p{Hiragana}\p{Katakana}\p{Han}]/u', $s) === 1;
 }
 
 function blank(string $v): string

@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Noto+Serif+JP:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="assets/css/style.css?v=20260921">
+<link rel="stylesheet" href="assets/css/style.css?v=20261104">
 </head>
 <body>
 
@@ -96,6 +96,11 @@
       <form class="form reveal" id="contact-form" action="contact.php" method="POST" novalidate>
         <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
 
+        <p class="form__notice">営業目的のご連絡はご遠慮ください。</p>
+        <noscript>
+          <p class="form__notice">フォームの送信には JavaScript を有効にしてください。お電話・メールでも受け付けております。</p>
+        </noscript>
+
         <!-- スパム対策（contact.php 用）：人間には見えない欄と、ページ表示から送信までの所要時間 -->
         <div class="form__hp" aria-hidden="true">
           <label for="fax">FAX番号（入力不要）</label>
@@ -106,12 +111,12 @@
         <div class="form__row is-2">
           <div>
             <label for="name">お名前 <span class="req">必須</span></label>
-            <input type="text" id="name" name="name" required autocomplete="name" placeholder="縁 結子">
+            <input type="text" id="name" name="name" maxlength="50" required autocomplete="name" placeholder="縁 結子">
             <p class="error-msg" data-error-for="name"></p>
           </div>
           <div>
             <label for="kana">フリガナ</label>
-            <input type="text" id="kana" name="kana" autocomplete="off" placeholder="エン ユウコ">
+            <input type="text" id="kana" name="kana" maxlength="50" autocomplete="off" placeholder="エン ユウコ">
             <p class="error-msg" data-error-for="kana"></p>
           </div>
         </div>
@@ -119,12 +124,12 @@
         <div class="form__row is-2">
           <div>
             <label for="email">メールアドレス <span class="req">必須</span></label>
-            <input type="email" id="email" name="email" required autocomplete="email" placeholder="example@goen.jp">
+            <input type="email" id="email" name="email" maxlength="254" required autocomplete="email" placeholder="example@goen.jp">
             <p class="error-msg" data-error-for="email"></p>
           </div>
           <div>
             <label for="tel">電話番号</label>
-            <input type="tel" id="tel" name="tel" autocomplete="tel" placeholder="090-0000-0000">
+            <input type="tel" id="tel" name="tel" maxlength="20" autocomplete="tel" placeholder="090-0000-0000">
             <p class="error-msg" data-error-for="tel"></p>
           </div>
         </div>
@@ -132,7 +137,7 @@
         <div class="form__row is-2">
           <div>
             <label for="age">ご年齢</label>
-            <input type="text" id="age" name="age" inputmode="numeric" placeholder="例：32">
+            <input type="text" id="age" name="age" maxlength="10" inputmode="numeric" placeholder="例：32">
             <p class="error-msg" data-error-for="age"></p>
           </div>
           <div>
@@ -149,7 +154,7 @@
 
         <div class="form__row">
           <label for="message">ご相談内容 <span class="req">必須</span></label>
-          <textarea id="message" name="message" required placeholder="ご相談内容やご希望をお聞かせください。"></textarea>
+          <textarea id="message" name="message" maxlength="4000" required placeholder="ご相談内容やご希望をお聞かせください。"></textarea>
           <p class="error-msg" data-error-for="message"></p>
         </div>
 
@@ -203,6 +208,6 @@
   </div>
 </footer>
 
-<script src="assets/js/main.js?v=20260921"></script>
+<script src="assets/js/main.js?v=20261104"></script>
 </body>
 </html>
